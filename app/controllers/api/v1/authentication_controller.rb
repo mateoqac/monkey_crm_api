@@ -1,20 +1,10 @@
 module Api
   module V1
     class AuthenticationController < ApplicationController
-      before_action :authorize_request, only: [:logout]
-
-      def signup
-        result = Users::Signup.new.call(user_params)
-
-        if result.success?
-          render json: serialize_user(result.value![:user], result.value![:token]), status: :created
-        else
-          render json: { errors: result.failure }, status: :unprocessable_entity
-        end
-      end
+      skip_before_action :authenticate_user!, only: %i[login]
 
       def login
-        result = Users::Login.new.call(login_params)
+        result = Auth::Login.new.call(login_params)
 
         if result.success?
           render json: serialize_user(result.value![:user], result.value![:token]), status: :ok
@@ -24,10 +14,7 @@ module Api
       end
 
       def logout
-        header = request.headers['Authorization']
-        token = header.split.last if header
-
-        result = Users::Logout.new.call(token)
+        result = Auth::Logout.new.call(extract_token)
 
         if result.success?
           render json: { message: result.value! }, status: :ok
@@ -44,12 +31,16 @@ module Api
         serialized_user
       end
 
-      def user_params
-        params.permit(:name, :email, :password, :password_confirmation)
-      end
-
       def login_params
         params.require(:authentication).permit(:email, :password)
+      end
+
+      def user_params
+        params.require(:user).permit(:name, :email, :password, :password_confirmation)
+      end
+
+      def extract_token
+        request.headers['Authorization']&.split&.last
       end
     end
   end

@@ -1,5 +1,4 @@
-# app/services/users/signup.rb
-module Users
+module Auth
   class Signup
     include Dry::Monads[:result, :do]
 

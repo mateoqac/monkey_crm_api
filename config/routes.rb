@@ -4,6 +4,14 @@ Rails.application.routes.draw do
       post '/auth/signup', to: 'authentication#signup'
       post '/auth/login', to: 'authentication#login'
       post '/auth/logout', to: 'authentication#logout'
+
+      resources :customers, only: %i[index show create update destroy]
+      resources :users, only: %i[index show create update destroy] do
+        member do
+          post :add_admin_role
+          post :remove_admin_role
+        end
+      end
     end
   end
 
