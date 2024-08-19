@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'debug'
+
 RSpec.describe 'Api::V1::Users' do
   let!(:admin) { create(:user, :admin) }
   let!(:superadmin) { create(:user, :superadmin) }

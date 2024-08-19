@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# spec/services/auth/logout_spec.rb
 require 'rails_helper'
 
 RSpec.describe Auth::Logout do

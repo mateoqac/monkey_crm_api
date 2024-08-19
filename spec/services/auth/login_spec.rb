@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# spec/services/auth/login_spec.rb
 require 'rails_helper'
 
 RSpec.describe Auth::Login do

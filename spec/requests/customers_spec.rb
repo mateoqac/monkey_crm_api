@@ -37,12 +37,6 @@ RSpec.describe 'Api::V1::Customers' do
           post '/api/v1/customers', params: { customer: valid_attributes }, headers:
         end.to change(Customer, :count).by(1)
 
-        if response.status != 201
-          puts "Response status: #{response.status}"
-          puts "Response body: #{response.body}"
-          puts "Errors: #{Customer.last&.errors&.full_messages}"
-        end
-
         expect(response).to have_http_status(:created)
         expect(Customer.last.created_by).to eq(user)
         expect(Customer.last.last_modified_by).to eq(user)
@@ -84,6 +78,69 @@ RSpec.describe 'Api::V1::Customers' do
         delete api_v1_customer_path(customer_to_delete), headers:
       end.to change(Customer, :count).by(-1)
       expect(response).to have_http_status(:no_content)
+    end
+  end
+
+  describe 'POST /api/v1/customers/:id/upload_photo' do
+    let(:photo) { fixture_file_upload(Rails.root.join('spec/fixtures/files/photo.jpg'), 'image/jpeg') }
+
+    context 'when the customer exists' do
+      context 'when the upload is successful' do
+        it 'attaches the photo to the customer' do
+          post(upload_photo_api_v1_customer_path(customer), params: { photo: }, headers:)
+          expect(response).to have_http_status(:ok)
+          expect(json_response_body['data']['attributes']).to include('photo_url')
+        end
+      end
+
+      context 'when the upload fails' do
+        before do
+          allow_any_instance_of(Customers::UploadPhoto).to receive(:call)
+            .and_return(Dry::Monads::Failure('Upload failed'))
+        end
+
+        it 'returns an error message' do
+          post(upload_photo_api_v1_customer_path(customer), params: { photo: }, headers:)
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(json_response_body).to have_key('errors')
+        end
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/customers/:id/delete_photo' do
+    context 'when the customer exists' do
+      context 'when the customer has a photo' do
+        before do
+          customer.photo.attach(fixture_file_upload(Rails.root.join('spec/fixtures/files/photo.jpg'), 'image/jpg'))
+        end
+
+        it 'removes the photo from the customer' do
+          expect do
+            delete delete_photo_api_v1_customer_path(customer), headers:
+          end.to change { customer.reload.photo.attached? }.from(true).to(false)
+
+          expect(response).to have_http_status(:no_content)
+        end
+      end
+
+      context 'when the customer does not have a photo' do
+        it 'returns an error message' do
+          delete(delete_photo_api_v1_customer_path(customer), headers:)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(json_response_body).to have_key('errors')
+        end
+      end
+    end
+
+    context 'when the customer does not exist' do
+      it 'returns a not found error' do
+        delete(delete_photo_api_v1_customer_path(id: 'nonexistent'), headers:)
+
+        expect(response).to have_http_status(:not_found)
+        expect(json_response_body).to have_key('errors')
+      end
     end
   end
 end

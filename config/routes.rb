@@ -7,7 +7,13 @@ Rails.application.routes.draw do
       post '/auth/login', to: 'authentication#login'
       post '/auth/logout', to: 'authentication#logout'
 
-      resources :customers, only: %i[index show create update destroy]
+      resources :customers, only: %i[index show create update destroy] do
+        member do
+          post :upload_photo
+          delete :delete_photo
+        end
+      end
+
       resources :users, only: %i[index show create update destroy] do
         member do
           post :add_admin_role

@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-# app/serializers/customer_serializer.rb
 class CustomerSerializer
   include JSONAPI::Serializer
 
-  attributes :name, :surname, :photo_url
+  attributes :id, :name, :surname
 
   attribute :photo_url do |customer|
-    Rails.application.routes.url_helpers.rails_blob_url(customer.photo, only_path: true) if customer.photo.attached?
+    if customer.photo.attached?
+      Rails.application.routes.url_helpers.rails_blob_path(customer.photo, disposition: 'attachment', only_path: true)
+    end
   end
 end

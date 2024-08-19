@@ -4,7 +4,7 @@ module Api
   module V1
     class CustomersController < ApplicationController
       before_action :authenticate_user!
-      before_action :find_customer, only: %i[show update destroy]
+      before_action :find_customer, only: %i[show update destroy upload_photo delete_photo]
       after_action :verify_authorized
 
       def index
@@ -52,6 +52,30 @@ module Api
         end
       end
 
+      def upload_photo
+        authorize @customer
+
+        result = Customers::UploadPhoto.new.call(@customer, params[:photo])
+
+        if result.success?
+          render json: CustomerSerializer.new(result.value!).serializable_hash.to_json, status: :ok
+        else
+          render json: { errors: result.failure }, status: :unprocessable_entity
+        end
+      end
+
+      def delete_photo
+        authorize @customer
+
+        result = Customers::DeletePhoto.new.call(@customer)
+
+        if result.success?
+          head :no_content
+        else
+          render json: { errors: result.failure }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def customer_params
@@ -60,6 +84,8 @@ module Api
 
       def find_customer
         @customer = Customer.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        render json: { errors: 'Customer not found' }, status: :not_found
       end
     end
   end

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# app/services/customers/update_customer.rb
 module Customers
   class UpdateCustomer
     include Dry::Monads[:result]

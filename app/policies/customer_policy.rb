@@ -21,6 +21,14 @@ class CustomerPolicy < ApplicationPolicy
     user.present?
   end
 
+  def upload_photo?
+    user.present?
+  end
+
+  def delete_photo?
+    user.present?
+  end
+
   class Scope < Scope
     def resolve
       scope.all
