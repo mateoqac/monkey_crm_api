@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/services/users/remove_admin_role.rb
 module Users
   class RemoveAdminRole

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # # app/services/auth/login.rb
 # module Auth
 #   class Login

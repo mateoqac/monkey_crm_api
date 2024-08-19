@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CustomerPolicy < ApplicationPolicy
   def index?
     user.present?

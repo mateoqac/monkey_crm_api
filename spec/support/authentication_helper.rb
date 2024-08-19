@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AuthenticationHelper
   def generate_token_for(user)
     payload = { user_id: user.id, jti: SecureRandom.uuid }

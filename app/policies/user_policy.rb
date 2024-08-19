@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserPolicy < ApplicationPolicy
   def admin_or_superadmin?
     user.has_role?(:admin) || user.has_role?(:superadmin)

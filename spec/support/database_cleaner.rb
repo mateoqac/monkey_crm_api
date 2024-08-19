@@ -1,25 +1,25 @@
-# Make sure to require this file in your rails_helper.rb
+# frozen_string_literal: true
+
 require 'database_cleaner/active_record'
 
 RSpec.configure do |config|
-  # Use DatabaseCleaner to clean the database between test runs
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.before(:each, js: true) do
+  config.before(:each, :js) do
     DatabaseCleaner.strategy = :truncation
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after do
     DatabaseCleaner.clean
   end
 end

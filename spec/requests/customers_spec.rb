@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Customers', type: :request do
+RSpec.describe 'Api::V1::Customers' do
   let(:user) { create(:user) }
   let(:customer) { create(:customer, created_by: user) }
   let(:valid_attributes) do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class JwtService
   SECRET_KEY = ENV.fetch('SECRET_KEY_BASE', Rails.application.credentials.secret_key_base)
 

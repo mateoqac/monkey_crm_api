@@ -1,13 +1,15 @@
-puts 'Cleaning the database...'
+# frozen_string_literal: true
+
+Rails.logger.debug 'Cleaning the database...'
 User.destroy_all
 Role.destroy_all
 
-puts 'Creating roles...'
+Rails.logger.debug 'Creating roles...'
 %w[admin superadmin].each do |role_name|
   Role.create!(name: role_name)
 end
 
-puts 'Creating users...'
+Rails.logger.debug 'Creating users...'
 
 3.times do |i|
   User.create!(
@@ -36,7 +38,7 @@ superadmin = User.create!(
 )
 superadmin.add_role(:superadmin)
 
-puts 'Seeding completed successfully!'
-puts "Created #{User.count} users:"
-puts "- Admin users: #{User.with_role(:admin).count}"
-puts "- Superadmin users: #{User.with_role(:superadmin).count}"
+Rails.logger.debug 'Seeding completed successfully!'
+Rails.logger.debug { "Created #{User.count} users:" }
+Rails.logger.debug { "- Admin users: #{User.with_role(:admin).count}" }
+Rails.logger.debug { "- Superadmin users: #{User.with_role(:superadmin).count}" }

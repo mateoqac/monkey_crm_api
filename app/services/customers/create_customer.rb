@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Customers
   class CreateCustomer
     include Dry::Monads[:result]

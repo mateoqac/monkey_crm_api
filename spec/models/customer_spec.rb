@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe Customer, type: :model do
+RSpec.describe Customer do
   # Valid attributes
   let(:user) { create(:user) }
   let(:customer) { build(:customer, created_by: user) }
@@ -25,7 +27,7 @@ RSpec.describe Customer, type: :model do
   end
 
   it 'is valid with a photo attachment' do
-    customer.photo.attach(io: File.open(Rails.root.join('spec/fixtures/files/photo.jpg')),
+    customer.photo.attach(io: Rails.root.join('spec/fixtures/files/photo.jpg').open,
                           filename: 'photo.jpg', content_type: 'image/jpg')
     expect(customer).to be_valid
   end

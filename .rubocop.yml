@@ -6,3 +6,38 @@ require:
 
 Style/Documentation:
   Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: true
+  Max: 15
+  Exclude:
+    - 'db/migrate/**/*'
+
+Metrics/AbcSize:
+  Enabled: true
+  Exclude:
+    - 'db/migrate/**/*'
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'bin/**/*'
+    - 'db/schema.rb'
+
+Rails/PluckInWhere:
+  Enabled: false
+
+FactoryBot/FactoryAssociationWithStrategy:
+  Enabled: false

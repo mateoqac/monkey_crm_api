@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Auth
   class Logout
     include Dry::Monads[:result]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/serializers/customer_serializer.rb
 class CustomerSerializer
   include JSONAPI::Serializer

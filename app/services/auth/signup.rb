@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Auth
   class Signup
     include Dry::Monads[:result, :do]

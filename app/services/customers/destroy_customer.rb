@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/services/customers/destroy_customer.rb
 module Customers
   class DestroyCustomer
