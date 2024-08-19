@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Customer do
-  # Valid attributes
   let(:user) { create(:user) }
   let(:customer) { build(:customer, created_by: user) }
 
