@@ -35,6 +35,7 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 RSpec.configure do |config|
+  config.include Rack::Test::Methods, type: :request
   config.include ActionDispatch::TestProcess
 
   config.fixture_paths = [

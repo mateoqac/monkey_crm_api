@@ -35,20 +35,20 @@ Monkey CRM API is a Ruby on Rails application that provides a backend for custom
    ```
    To generate a secret key, run:
    ```
-   rake secret
+   bundle exec rails secret
    ```
    Copy the output and use it as the value for `SECRET_KEY_BASE` in your `.env` file.
 
 5. Create and migrate the database:
    ```
-   rails db:create db:migrate db:seed
+   bundle exec rails db:create db:migrate db:seed
    ```
 
 6. Start the server:
    ```
-   rails server
+   bundle exec rails server
    ```
-
+SECRET_KEY_BASE=2627cd731f9d4e6d30f754b8451a592135d78423df3e161c815477eba9a5bf8f23711b14c3c3c7f657bbeeb4906c1c4da40f0ba27f0f605c180c78e9a32d7b88
 The API will be available at `http://localhost:3000`.
 
 ## Setup and Running (with Docker)
@@ -70,23 +70,19 @@ The API will be available at `http://localhost:3000`.
    ```
    To generate a secret key, run:
    ```
-   docker-compose run web rake secret
+   docker-compose run web bundle exec rails secret
    ```
    Copy the output and use it as the value for `SECRET_KEY_BASE` in your `.env` file.
 
-3. Build the Docker image:
+
+3. Start the services:
    ```
-   docker-compose build
+   docker-compose up --build
    ```
 
-4. Start the services:
+4. In a new terminal, run the database setup:
    ```
-   docker-compose up
-   ```
-
-5. In a new terminal, run the database setup:
-   ```
-   docker-compose run web rails db:create db:migrate
+   docker-compose run web bundle exec rails db:create db:migrate db:seed
    ```
 
 The API will be available at `http://localhost:3000`.
@@ -97,12 +93,12 @@ Note: When using Docker, the `DATABASE_HOST` environment variable should be set 
 
 Without Docker:
 ```
-rspec
+bundle exec rspec
 ```
 
 With Docker:
 ```
-docker-compose run web rspec
+docker-compose run web bundle exec rspec
 ```
 
 ## API Endpoints

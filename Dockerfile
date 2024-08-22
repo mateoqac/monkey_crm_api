@@ -56,6 +56,7 @@ USER 1000:1000
 # Entrypoint script (Ensure this script exists and is executable)
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
+ENV BUNDLE_APP_CONFIG="/rails/.bundle"
 # Default command to start Rails server
 EXPOSE 3000
 CMD ["rails", "server", "-b", "0.0.0.0"]
